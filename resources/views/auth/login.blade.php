@@ -30,14 +30,14 @@
 						</div>
 					@enderror()
 
-					<label for="email">Email</label>
+					<label for="email" class="form-label">Email</label>
 					{{-- old('email') va afficher à l'utilisateur son récent email saisie avant s'il oublit--}}
 					{{-- @error is-invalid @enderror pour mettre le cadre du champ en rouge en cas d'erreur d'email --}}
 					<input type="email" name="email" id="email" class="form-control mb-3 @error('email') is-invalid @enderror" value="{{old('email')}}" required autocomplete="current-email" autofocus>
 					
 					{{-- @error is-invalid @enderror pour mettre le cadre du champ en rouge en cas d'erreur de password --}}
 					
-					<label for="password">Password</label>
+					<label for="password" class="form-label">Password</label>
 					<input type="password" name="password" id="password" class="form-control mb-3 @error('password') is-invalid @enderror" required autocomplete="current-password">
 
 					<div class="row mb-3">
@@ -48,7 +48,7 @@
 							</div>
 						</div>
 						<div class="col-md-6 text-right tex t-end">
-							<a href="#">forgot password ?</a>
+							<a href="{{route('app_forgotpassword')}}">forgot password ?</a>
 						</div>
 					</div>
 					<div class="d-grid gap-2">

@@ -186,7 +186,8 @@ class LoginController extends Controller
          if($this->request->isMethod('post')){
             $email = $this->request->input('email-send');
             $user = DB::table('users')->where('email', $email)->first();
-            
+            $message = null;
+
             if($user){
                $full_name = $user->name;
                // on va générer un token pour la réinitialisation du mot de passe de l'utilisateur
@@ -195,6 +196,16 @@ class LoginController extends Controller
                $emailrestpwd = new EmailService;
                $subject = "Reset your password";
                $emailrestpwd->resetPassword($subject, $email, $full_name, true, $activation_token);
+               
+               DB::table('users')
+                     ->where('email', $email)
+                     ->update(['activation_token' => $activation_token]);
+
+               $message = 'we have just send the request to reset your password, please check your mail-box';
+               return back()->withErrors(['email-success' => $message])
+                              ->with('old_email', $email)
+                              ->with('success', $message);
+
             }else{
 
                $message = 'the email enterred does not exist';
@@ -204,6 +215,12 @@ class LoginController extends Controller
             }
          }
          return view('auth.forgot_password');
+      }
+
+      public function changePassword($token){
+         return view('auth.change_password', [
+            'activation_token' => $token
+         ]);
       }
    
 }
